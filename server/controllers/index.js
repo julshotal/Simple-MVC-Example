@@ -91,10 +91,33 @@ const searchName = (req, res) => {
   if (!req.query.name) {
     return res.json({ error: 'Name is required to perform a search' });
   }
+
+  return Cat.findByName(req.query.name, (err, doc) => {
+    if(err) {
+      return res.json({err});
+    }
+
+    if(!doc) {
+      res.json({error: 'No Cats Found'});
+    }
+
+    return res.json({
+      name: doc.name,
+      beds: doc.bedsOwned,
+    });
+  });
 };
 
 const updateLast = (req, res) => {
-	
+  lastAdded.bedsOwned;
+  
+  const savePromise = lastAdded.save();
+  savePromise.then(() => {
+    res.json({
+      name: lastAdded.name, 
+      beds: lastAdded.bedsOwned,
+    });
+  });
 };
 
 const notFound = (req, res) => {
